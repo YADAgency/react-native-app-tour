@@ -1,12 +1,13 @@
 {
-  "name": "react-native-app-tour",
+  "name": "@yadagency/react-native-app-tour",
   "version": "1.0.3",
   "description": "React Native: Native App Tour Library",
-  "homepage": "https://github.com/prscX/react-native-app-tour.git",
+  "homepage": "https://github.com/YADAgency/react-native-app-tour.git",
   "repository": {
     "type": "git",
-    "url": "https://github.com/prscX/react-native-app-tour.git"
+    "url": "https://github.com/YADAgency/react-native-app-tour.git"
   },
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "main": "RNAppTour.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
