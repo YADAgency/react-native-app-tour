@@ -1,6 +1,6 @@
 {
   "name": "@yadagency/react-native-app-tour",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "React Native: Native App Tour Library",
   "homepage": "https://github.com/YADAgency/react-native-app-tour.git",
   "repository": {
@@ -9,6 +9,7 @@
   },
   "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "main": "RNAppTour.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,6 +21,12 @@
   "dependencies": {
   },
   "devDependencies": {
-    "prettier-pack": "0.0.8"
+    "prettier-pack": "0.0.8",
+    "react": "^16.8.0",
+    "react-native": "^0.61.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-native": ">=0.61.0"
   }
 }

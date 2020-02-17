@@ -107,7 +107,7 @@ allprojects {
 - AppTourView.for: AppTourTarget
 
 ```
-let appTourTarget = AppTourView.for(Button, {...native-library-props})
+let appTourTarget = AppTourView.for(Button, key, {...native-library-props})
 
 AppTour.ShowFor(appTourTarget)
 ```

@@ -66,16 +66,16 @@ class AppTourSequence {
 }
 
 class AppTourView {
-  static for(view, props) {
+  static for(view, key, props) {
     if (view === undefined || view === null)
       throw new Error(
         'Provided tour view reference is undefined or null, please add a preliminary validation before adding for tour.'
       )
 
     return {
-      key: view._reactInternalFiber.key,
+      key,
       view: findNodeHandle(view),
-      props: props
+      props
     }
   }
 }
