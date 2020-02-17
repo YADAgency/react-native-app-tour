@@ -40,10 +40,12 @@ import com.getkeepsafe.taptargetview.TapTarget;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.WeakHashMap;
 
 public class RNAppTourModule extends ReactContextBaseJavaModule {
     private Context context;
     private AssetManager AssetManager;
+    private WeakHashMap<String, TapTargetSequence> sequences;
 
     public RNAppTourModule(ReactApplicationContext reactContext) {
         // ReactApplicationContext inherit from context
@@ -63,7 +65,7 @@ public class RNAppTourModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void ShowSequence(final ReadableArray views, final ReadableMap props, final Promise promise) {
+    public void ShowSequence(final ReadableArray views, final ReadableMap props, final String id, final Promise promise) {
         final Activity activity = this.getCurrentActivity();
         final List<TapTarget> targetViews = new ArrayList<TapTarget>();
 
@@ -124,7 +126,11 @@ public class RNAppTourModule extends ReactContextBaseJavaModule {
                                 sendEvent(getReactApplicationContext(), "onCancelStepEvent", params);
                             }
                         }).continueOnCancel(true);
+                        sequences.put(id, tapTargetSequence);
+                        
                         tapTargetSequence.start();
+
+                        promise.resolve(id.toString());
                     }
                 });
             }
@@ -159,6 +165,18 @@ public class RNAppTourModule extends ReactContextBaseJavaModule {
                 });
             }
         });
+    }
+
+    @ReactMethod
+    public void CancelSequence(final String id, final Promise promise) {
+        TapTargetSequence sequence = sequences.get(id);
+        boolean canceled = false;
+        if (sequence != null) {
+            canceled = sequence.cancel();
+        } else {
+            canceled = true;
+        }
+        promise.resolve(canceled);
     }
 
     public static class TapTargetViewListener extends TapTargetView.Listener {

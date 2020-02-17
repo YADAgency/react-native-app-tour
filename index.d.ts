@@ -9,22 +9,22 @@ type AppTourTarget = {
 
 type AppTourTargetProps = {
   title: string
-  description: string
-  outerCircleColor: string
-  targetCircleColor: string
-  titleTextColor: string
-  descriptionTextColor: string
-  textColor: string
-  dimColor: string
-  fontFamily: string
-  outerCircleAlpha: number
-  titleTextSize: number
-  descriptionTextSize: number
-  drawShadow: boolean
-  cancelable: boolean
-  tintTarget: boolean
-  transparentTarget: boolean
-  targetRadius: number
+  description?: string
+  outerCircleColor?: string
+  targetCircleColor?: string
+  titleTextColor?: string
+  descriptionTextColor?: string
+  textColor?: string
+  dimColor?: string
+  fontFamily?: string
+  outerCircleAlpha?: number
+  titleTextSize?: number
+  descriptionTextSize?: number
+  drawShadow?: boolean
+  cancelable?: boolean
+  tintTarget?: boolean
+  transparentTarget?: boolean
+  targetRadius?: number
 }
 
 declare class AppTour {

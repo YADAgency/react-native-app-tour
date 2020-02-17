@@ -11,10 +11,13 @@ NSString *const onFinishShowStepEvent = @"onFinishSequenceEvent";
     NSMutableOrderedSet *_keys;
 }
 
+@private NSMapTable *_sequences;
+
 - (instancetype)init {
     if ((self = [super init])) {
         _values = NSMutableArray.new;
         _keys = NSMutableOrderedSet.new;
+        _sequences = [NSMapTable strongToWeakObjects];
     }
     return self;
 }
@@ -79,7 +82,7 @@ NSString *const onFinishShowStepEvent = @"onFinishSequenceEvent";
 
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(ShowSequence:(NSArray *)views props:(NSDictionary *)props)
+RCT_EXPORT_METHOD(ShowSequence:(NSArray *)views props:(NSDictionary *)props id:(NSString *)id)
 {
     bool tourStarted = false;
     if (targets == nil || [[targets allKeys] count] <= 0) {
@@ -100,16 +103,27 @@ RCT_EXPORT_METHOD(ShowSequence:(NSArray *)views props:(NSDictionary *)props)
     if ([[targets allKeys] count] <= 0) return;
     
     NSString *showTargetKey = [ [targets allKeys] objectAtIndex: 0];
-    [self ShowFor:[NSNumber numberWithLongLong:[showTargetKey longLongValue]] props:[targets objectForKey:showTargetKey] ];
+    [self ShowFor:[NSNumber numberWithLongLong:[showTargetKey longLongValue]] props:[targets objectForKey:showTargetKey] id:id];
 }
 
-RCT_EXPORT_METHOD(ShowFor:(nonnull NSNumber *)view props:(NSDictionary *)props)
+RCT_EXPORT_METHOD(ShowFor:(nonnull NSNumber *)view props:(NSDictionary *)props id:(NSString *)id)
 {
     MaterialShowcase *materialShowcase = [self generateMaterialShowcase:view props:props];
+
+    [[self _sequences] setObject:materialShowcase withKey:id];
 
     [materialShowcase showWithAnimated:true completion:^() {
         [self.bridge.eventDispatcher sendDeviceEventWithName:onStartShowStepEvent body:@{@"start_step": @YES}];
     }];
+}
+
+RCT_EXPORT_METHOD(Cancel:(NSString *)id)
+{
+    MaterialShowcase *materialShowcase = [[self _sequences] object:id];
+
+    if (materialShowcase != nil) {
+        [materialShowcase completeShowcase:true didTapTarget:false];
+    }
 }
 
 - (MaterialShowcase *)generateMaterialShowcase:(NSNumber *)view props:(NSDictionary *)props {

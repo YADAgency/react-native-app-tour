@@ -1,4 +1,5 @@
 import { findNodeHandle, NativeModules } from 'react-native'
+import uuidv4 from 'uuid/v4'
 
 const { RNAppTour } = NativeModules
 
@@ -31,16 +32,21 @@ class AppTour {
       sortedViewIds.push(viewIds.get(vOrder))
     })
 
-    RNAppTour.ShowSequence(sortedViewIds, props)
+    RNAppTour.ShowSequence(sortedViewIds, props, sequence._id)
   }
 
   static ShowFor(appTourTarget) {
     RNAppTour.ShowFor(appTourTarget.view, appTourTarget.props)
   }
+
+  static CancelSequence(appTourSequence) {
+    return RNAppTour.Cancel(appTourSequence._id)
+  }
 }
 
 class AppTourSequence {
   constructor() {
+    this._id = uuidv4()
     this.appTourTargets = new Map()
   }
 
@@ -62,6 +68,10 @@ class AppTourSequence {
 
   getAll() {
     return this.appTourTargets
+  }
+
+  cancel() {
+    return AppTour.CancelSequence(this)
   }
 }
 

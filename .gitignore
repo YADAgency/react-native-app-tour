@@ -49,3 +49,5 @@ buck-out/
 .history/*
 Example/ios/Pods
 Example/ios/Podfile.lock
+
+.vscode/
