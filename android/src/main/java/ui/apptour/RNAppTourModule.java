@@ -53,6 +53,7 @@ public class RNAppTourModule extends ReactContextBaseJavaModule {
 
         this.context = reactContext.getApplicationContext();
         this.AssetManager = this.context.getAssets();
+        this.sequences = new WeakHashMap<String, TapTargetSequence>();
     }
 
     @Override
@@ -65,7 +66,8 @@ public class RNAppTourModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void ShowSequence(final ReadableArray views, final ReadableMap props, final String id, final Promise promise) {
+    public void ShowSequence(final ReadableArray views, final ReadableMap props, final String id,
+            final Promise promise) {
         final Activity activity = this.getCurrentActivity();
         final List<TapTarget> targetViews = new ArrayList<TapTarget>();
 
@@ -127,7 +129,7 @@ public class RNAppTourModule extends ReactContextBaseJavaModule {
                             }
                         }).continueOnCancel(true);
                         sequences.put(id, tapTargetSequence);
-                        
+
                         tapTargetSequence.start();
 
                         promise.resolve(id.toString());
