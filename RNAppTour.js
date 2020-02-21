@@ -4,7 +4,7 @@ import uuidv4 from 'uuid/v4'
 const { RNAppTour } = NativeModules
 
 class AppTour {
-  static ShowSequence(sequence) {
+  static ShowSequence(sequence, onDismiss) {
     let appTourTargets = sequence.getAll()
 
     let viewIds = new Map(),
@@ -33,6 +33,10 @@ class AppTour {
     })
 
     RNAppTour.ShowSequence(sortedViewIds, props, sequence._id)
+    RNAppTour.addEventListener('onFinishSequenceEvent', function() {
+      RNAppTour.removeEventListener(this)
+      onDismiss()
+    })
   }
 
   static ShowFor(appTourTarget) {
