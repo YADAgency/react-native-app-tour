@@ -1,7 +1,8 @@
-import { findNodeHandle, NativeModules } from 'react-native'
+import { findNodeHandle, NativeModules, NativeEventEmitter } from 'react-native'
 import uuidv4 from 'uuid/v4'
 
 const { RNAppTour } = NativeModules
+const eventEmitter = new NativeEventEmitter(RNAppTour)
 
 class AppTour {
   static ShowSequence(sequence, onDismiss) {
@@ -34,8 +35,8 @@ class AppTour {
 
     RNAppTour.ShowSequence(sortedViewIds, props, sequence._id)
     if (onDismiss) {
-      RNAppTour.addListener('onFinishSequenceEvent', function() {
-        RNAppTour.removeListener(this)
+      eventEmitter.addListener('onFinishSequenceEvent', () => {
+        eventEmitter.removeCurrentListener()
         onDismiss()
       })
     }
