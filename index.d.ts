@@ -28,7 +28,7 @@ type AppTourTargetProps = {
 }
 
 declare class AppTour {
-  static ShowSequence(sequence: AppTourSequence): void
+  static ShowSequence(sequence: AppTourSequence, onDismiss?: () => void): void
   static ShowFor(appTourTarget: AppTourTarget): void
 }
 
