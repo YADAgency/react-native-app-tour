@@ -34,8 +34,8 @@ class AppTour {
 
     RNAppTour.ShowSequence(sortedViewIds, props, sequence._id)
     if (onDismiss) {
-      RNAppTour.addEventListener('onFinishSequenceEvent', function() {
-        RNAppTour.removeEventListener(this)
+      RNAppTour.addListener('onFinishSequenceEvent', function() {
+        RNAppTour.removeListener(this)
         onDismiss()
       })
     }
