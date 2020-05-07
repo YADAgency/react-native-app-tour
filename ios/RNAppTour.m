@@ -11,13 +11,13 @@ NSString *const onFinishShowStepEvent = @"onFinishSequenceEvent";
     NSMutableOrderedSet *_keys;
 }
 
-@private NSMapTable *_sequences;
+// @private NSMapTable *_sequences;
 
 - (instancetype)init {
     if ((self = [super init])) {
         _values = NSMutableArray.new;
         _keys = NSMutableOrderedSet.new;
-        _sequences = [NSMapTable strongToWeakObjects];
+        // _sequences = [NSMapTable strongToWeakObjects];
     }
     return self;
 }
@@ -110,21 +110,21 @@ RCT_EXPORT_METHOD(ShowFor:(nonnull NSNumber *)view props:(NSDictionary *)props i
 {
     MaterialShowcase *materialShowcase = [self generateMaterialShowcase:view props:props];
 
-    [[self _sequences] setObject:materialShowcase withKey:id];
+    // [[self _sequences] setObject:materialShowcase withKey:id];
 
     [materialShowcase showWithAnimated:true completion:^() {
         [self.bridge.eventDispatcher sendDeviceEventWithName:onStartShowStepEvent body:@{@"start_step": @YES}];
     }];
 }
 
-RCT_EXPORT_METHOD(Cancel:(NSString *)id)
-{
-    MaterialShowcase *materialShowcase = [[self _sequences] object:id];
+// RCT_EXPORT_METHOD(Cancel:(NSString *)id)
+// {
+//     MaterialShowcase *materialShowcase = [[self _sequences] object:id];
 
-    if (materialShowcase != nil) {
-        [materialShowcase completeShowcase:true didTapTarget:false];
-    }
-}
+//     if (materialShowcase != nil) {
+//         [materialShowcase completeShowcase:true didTapTarget:false];
+//     }
+// }
 
 - (MaterialShowcase *)generateMaterialShowcase:(NSNumber *)view props:(NSDictionary *)props {
 
@@ -293,7 +293,7 @@ RCT_EXPORT_METHOD(Cancel:(NSString *)id)
     }
     
     if ([viewIds count] > 0) {
-        [self ShowSequence:viewIds props:props];
+        [self ShowSequence:viewIds props:props id: @"1"];
     }
 }
 
